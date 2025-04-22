@@ -1,0 +1,3 @@
+Vectors: dPhi, A_J
+
+run("/eos/cms/store/group/phys_heavyions/cmcginn/Samples/ForLynn/HiForestMiniAOD_PARTIALSkim.root")
