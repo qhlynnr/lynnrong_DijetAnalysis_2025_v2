@@ -1,3 +1,40 @@
-Vectors: dPhi, A_J
+
+Vectors: dPhi,A_J(underconstruction),EMiss(underconstruction)
+Branches: jteta,jtphi,etc
+
+HistVariables:
+
+Functions:
+    Draw2D:
+        Draw eta vs phi vs 
+    
 
 run("/eos/cms/store/group/phys_heavyions/cmcginn/Samples/ForLynn/HiForestMiniAOD_PARTIALSkim.root")
+
+Selections based off of https://arxiv.org/pdf/1703.01651
+EmissT > 200 GeV
+pt1 > 100 GeV
+
+1. Why Emiss over A_J or vice versa?
+2. In the paper the selection is only on leading jet eta (which is what I did here), but why don't they select for all etas?
+3. Article did not elaborate on minimum jet2 energy, Hence used pt2 > 50GeV
+4. Can we just select high energy
+
+With 
+EMiss > 200GeV
+pt1 > 100GeV
+pt2 > 50GeV
+dPhi > 7/8 theta
+A_J > 0.5 (not included in the paper)
+centrality < 20
+|leading jeta| < 2
+Total number of events: 289
+
+Choosing Events with A_J > 0.8: Total number of events: 69
+Choosing events with EMiss > 300: Total number of events: 130
+
+Choosing EMiss > 350 and A_J > 0.8: Total number of events: 24
+
+
+Additional:
+https://arxiv.org/pdf/1106.5327

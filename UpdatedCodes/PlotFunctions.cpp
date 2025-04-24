@@ -11,10 +11,11 @@
 #include "HistVariables.h"
 
 void PlotBranchWithCuts(const char* inFileName,
-    const char* branchName,
-    HistVar1D h,
-    CutsVector dPhiCut,
-    CutsBranches etaCut){
+        const char* branchName,
+        HistVar1D h,
+        CutsVector dPhiCut,
+        CutsBranches etaCut){
+    
         int nref, hiBin;
         float dPhi;
         Float_t branch[100];
