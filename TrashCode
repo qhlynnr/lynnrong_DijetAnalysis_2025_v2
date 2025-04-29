@@ -1,0 +1,168 @@
+/*
+PlotBranchWithCuts(inputFileName, "jtPfCHF",Dphi,"canvas2","jtPfCHF distribution of dphi > 2.7",
+                "Plots/PartialSkim_jtPfCHF_bigdphi.png",
+		TMath::Pi() * (7.0 / 8), TMath::Pi(),
+		50,0,1,true);*/
+
+/*
+    string branchnamearr[] = {"jtPfCHF","jtPfNEF","jtPfNHF","jtPfCEF","jtPfMUF"};
+
+    float dphimin = 0;
+    float dphimax = 8;
+    string dphicut = "";
+    string dphititle = "";
+    
+    for (int i = 0; i < 2; i++){
+	    if (i == 0){
+                dphimin = 0;
+		dphimax = 0.8;
+		dphicut = "smalldphi";
+		dphititle = "with dphi < 0.8";
+	    }
+	    else if (i == 1){
+		dphimin = TMath::Pi() * (7.0 / 8);
+		dphimax = TMath::Pi();
+		dphicut = "bigdphi";
+		dphititle = "with dphi > (7/8)#pi";
+	    }
+	    else if (i == 2){
+		dphimin = 0;
+		dphimax = 10;
+		dphicut = "alldphi";
+		dphititle = "of all jets";
+	    }
+	    for (int j = 0;j < 5 ;j++){
+		    string branchname = branchnamearr[j];
+		    string title = "";
+		    string filename = "";
+
+		    title += branchname;
+		    title += " of jets ";
+		    title += dphititle;
+
+		    filename += "Plots/PartialSkim_";
+		    filename += branchname;
+		    filename += "_";
+		    filename += dphicut;
+		    filename += "_log";
+		    filename += ".png";		    
+
+		    cout << "BranchName: " << branchname << endl;
+		    cout << "Title: " << title << endl;
+		    cout << filename << endl;
+		    cout << dphimin << " < dphi < " << dphimax << endl;
+		    cout << endl;
+                    PlotBranchWithCuts(inputFileName, 
+				    branchname.c_str(),
+				    Dphi,
+				    title.c_str(),
+				    title.c_str(),
+				    filename.c_str(),
+				    dphimin, dphimax,
+				    50,0,1,true);
+	    }
+    }
+        */
+/*
+    PlotDPhi(inputFileName,
+  	    JetAnalyserTreeString,
+	    "jtphi",
+	    "canvasName",
+	    "dPhi",
+	    "Plots/PartialSkim_dphi_cent0to10perc_new.png",
+	    0,
+	    20);
+
+    PlotAJ(inputFileName,Dphi,
+		    "bigdphi1",
+		    "Jet A_{J} (cuts dPHi > (7/8)pi)",
+		    "Plots/PartialSkim_A_J_cent0-10_dphimorethan2p7.png",
+		    0,20,
+		    TMath::Pi() * (7.0 / 8), TMath::Pi(),
+		    50,0,1);
+
+    PlotAJ(inputFileName,Dphi,
+		    "bigdphi2",
+		    "Jet A_{J} (cuts dPHi > (7/8)pi)",
+		    "Plots/PartialSkim_A_J_cent10-30_dphimorethan2p7.png",
+		    20,60,
+		    TMath::Pi() * (7.0 / 8), TMath::Pi(),
+		    50,0,1);
+
+    PlotAJ(inputFileName,Dphi,
+		    "bigdphi3",
+		    "Jet A_{J} (cuts dPHi > (7/8)pi)",
+		    "Plots/PartialSkim_A_J_cent30-80_dphimorethan2p7.png",
+		    60,160,
+		    TMath::Pi() * (7.0 / 8), TMath::Pi(),
+		    50,0,1);
+
+
+    PlotAJ(inputFileName,Dphi,
+		    "smalldphi1",
+		    "Jet A_{J} (cuts dPHi < 0.8)",
+		    "Plots/PartialSkim_A_J_cent0-10_dphilessthan0p8.png",
+		    0,20,
+		    0.0,0.8,
+		    50,0,1);
+
+    PlotAJ(inputFileName,Dphi,
+		    "smalldphi2",
+		    "Jet A_{J} (cuts dPHi < 0.8)",
+		    "Plots/PartialSkim_A_J_cent10-30_dphilessthan0p8.png",
+		    20,60,
+		    0.0,0.8,
+		    50,0,1);
+
+    PlotAJ(inputFileName,Dphi,
+		    "smalldphi3",
+		    "Jet A_{J} (cuts dPHi < 0.8)",
+		    "Plots/PartialSkim_A_J_cent30-80_dphilessthan0p8.png",
+		    60,160,
+		    0.0,0.8,
+		    50,0,1);
+    //draw2D(PFTree);
+
+    string branchnamearr[] = {"pfPt","pfEta","pfPhi"};
+    int xmaxarr[] = {300,6,6};
+    int xminarr[] = {0,-6,-6};
+    bool boolarr[] = {true,false,false};
+
+    const int minPFID = 6;
+    const int maxPFID = 7;//Inclusive i.e. value should be also plotted
+
+    for (int i = minPFID; i <= maxPFID; i++){
+	    for (int j = 0;j < 1;j++){
+		    string branchname = branchnamearr[j];
+		    string title = "";
+		    string filename = "";
+
+		    title += branchname;
+		    title += " of particle flow object pfId = ";
+		    title += to_string(i);
+
+		    filename += "Plots_";
+		    filename += branchname;
+		    filename += "_pfid";
+		    filename += to_string(i);
+		    filename += ".png";
+		    
+		    cout << "pfID: " << i << endl;
+		    cout << "branchName: "<< branchname << endl;
+		    cout << "xmax: " << xmaxarr[j] << endl;
+		    cout << "xmin: " << xminarr[j] << endl;
+		    cout << filename << endl;
+
+		    DrawHistFVector(inputFileName,
+				    treeName,
+				    branchname.c_str(), //must be a float_t array
+				    "nPF",
+				    title.c_str(),
+				    title.c_str(),
+				    filename.c_str(),
+				    300,
+				    xminarr[j],
+				    xmaxarr[j],
+				    i,
+				    boolarr[j]);}
+    }*/

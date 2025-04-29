@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "string": "c",
+        "format": "c",
+        "iostream": "cpp",
+        "deque": "cpp",
+        "vector": "cpp",
+        "new": "cpp",
+        "chrono": "cpp",
+        "typeinfo": "cpp"
+    }
+}
