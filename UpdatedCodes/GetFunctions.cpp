@@ -89,7 +89,7 @@ vector<float> GetAJ(const char* inFileName){
     return ajvector;
 }
 
-vector<float> GetEmissJets(const char* inFileName){
+vector<float> GetEmissJets(const char* inFileName, float etacut = 2.0){
 
     TFile* inFile = new TFile(inFileName,"READ");
     if (!inFile || inFile->IsZombie()) {
@@ -103,12 +103,15 @@ vector<float> GetEmissJets(const char* inFileName){
     int nref;
     Float_t jtpt[100];
     Float_t jtphi[100];
+    Float_t jteta[100];
+
 
     vector<float> EMiss;
 
     tree->SetBranchAddress("nref",&nref);
     tree->SetBranchAddress("jtpt",jtpt);
     tree->SetBranchAddress("jtphi",jtphi);
+    tree->SetBranchAddress("jteta",jteta);
 
     for (int i = 0; i < tree->GetEntries(); i++){
 	    EMissjpt = 0;
@@ -116,15 +119,15 @@ vector<float> GetEmissJets(const char* inFileName){
 	    jptytot = 0;
         tree->GetEntry(i);
         for (int j = 0; j < nref; j++){
+            if (abs(jteta[j]) > etacut) continue;
             if (!jtpt[j]){
-		            cerr << "Error in entry number: "<< i <<j << endl;
-                    break;
-                }
+		        cerr << "Error in entry number: "<< i <<j << endl;
+                break;
+            }
 	        else{
 		        jptxtot += TMath::Cos(jtphi[j])*jtpt[j];
 		        jptytot += TMath::Sin(jtphi[j])*jtpt[j];
 	        }
-        //SUbleading jet with pt>50
 	    }
 	    EMissjpt = TMath::Sqrt(jptxtot*jptxtot + jptytot*jptytot);
 	    EMiss.push_back(EMissjpt);

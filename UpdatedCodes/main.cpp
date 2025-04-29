@@ -18,7 +18,10 @@ void run(const char* inputFileName) {
 
     vector<float> Dphi = GetDPhi(inputFileName,JetAnalyserTreeString);
     vector<float> AJValues = GetAJ(inputFileName);
-    vector<float> Emiss = GetEmissJets(inputFileName);
+    vector<float> Emiss2 = GetEmissJets(inputFileName,2.0);
+    vector<float> Emiss2p5 = GetEmissJets(inputFileName,2.5);
+    vector<float> Emiss3 = GetEmissJets(inputFileName,3.0);
+    vector<float> Emiss5 = GetEmissJets(inputFileName,5.0);
     
 
     HistVar1D h = {
@@ -32,18 +35,32 @@ void run(const char* inputFileName) {
     };
 
 
-    CutsVector dPhiCut_low{"dPhi",Dphi, 0, 0.8};
+    //CutsVector dPhiCut_low{"dPhi",Dphi, 0, 0.8};
     CutsVector dPhiCut_high{"dPhi",Dphi, TMath::Pi()*(7.0/8.0), TMath::Pi()};
-    CutsBranches jtEtaCut{"JetAnalyzer", "jteta", 0, 2};        
+    CutsBranches jtEtaCut{"JetAnalyzer", "jteta", -2, 2};        
     CutsBranches pfEtaCut{"pftree", "pfEta", -2, 2};     
     CutsBranches HiBinCut{"HiTree", "hiBin", 0, 20};        
     CutsVector AJcut{"A_J",AJValues, 0.8,1.0};  
-    CutsVector EMisscut{"EMiss",Emiss, 350,100000};  
+    CutsVector EMisscut{"EMiss",Emiss5, 350,100000};  
+    CutsVector EMisscut2{"EMiss2",Emiss2, 350,100000};  
+    CutsVector EMisscut2p5{"EMiss",Emiss2p5, 350,100000};  
 
 
-    vector<int> Event_array = ReturnAsymmetricEvents(inputFileName,pfEtaCut,HiBinCut,dPhiCut_high,AJcut,EMisscut);
+    cout << "Starting EMiss Inclusive Event Array" << endl;
+    vector<EventInfo> eventInfo = ReturnAsymmetricEvents(inputFileName,
+        jtEtaCut,
+        HiBinCut,
+        dPhiCut_high,
+        AJcut,
+        EMisscut,
+        EMisscut2,
+        EMisscut2p5);
 
-    draw2D(inputFileName,Event_array,jtEtaCut,HiBinCut,dPhiCut_low,AJcut,EMisscut);
+    cout << "End" << endl;
+    cout << endl;                            
+
+
+    draw2D(inputFileName,jtEtaCut,HiBinCut,dPhiCut_high,AJcut,EMisscut2,EMisscut2p5,eventInfo);
 
     //string branchnamearr[] = {"jtPfCHF","jtPfNEF","jtPfNHF","jtPfCEF","jtPfMUF"};
     

@@ -1,0 +1,217 @@
+event: 411
+jtpt1: 543.487
+jtpt2: 56.7571
+Leading jteta: -1.46454
+dPhi: 3.04535
+A_J: 0.844515
+Emiss: 535.62
+Cent: 0
+
+event: 431
+jtpt1: 949.952
+jtpt2: 113.056
+Leading jteta: -0.00187679
+dPhi: 2.94644
+A_J: 0.832482
+Emiss: 799.266
+Cent: 0
+
+event: 462
+jtpt1: 513.934
+jtpt2: 75.6466
+Leading jteta: 1.7496
+dPhi: 3.08861
+A_J: 0.816953
+Emiss: 492.739
+Cent: 11
+
+event: 863
+jtpt1: 883.88
+jtpt2: 74.7093
+Leading jteta: -0.18705
+dPhi: 3.10473
+A_J: 0.808045
+Emiss: 636.387
+Cent: 0
+
+event: 865
+jtpt1: 345.965
+jtpt2: 61.907
+Leading jteta: -1.80909
+dPhi: 3.1165
+A_J: 0.851486
+Emiss: 386.081
+Cent: 0
+
+event: 1307
+jtpt1: 603.003
+jtpt2: 64.1319
+Leading jteta: -0.104981
+dPhi: 2.75085
+A_J: 0.90878
+Emiss: 649.934
+Cent: 0
+
+event: 1319
+jtpt1: 673.686
+jtpt2: 154.69
+Leading jteta: -0.794902
+dPhi: 3.13695
+A_J: 0.839754
+Emiss: 639.61
+Cent: 0
+
+event: 2763
+jtpt1: 348.612
+jtpt2: 160.767
+Leading jteta: 1.73044
+dPhi: 2.8098
+A_J: 0.811687
+Emiss: 353.327
+Cent: 0
+
+event: 3911
+jtpt1: 417.844
+jtpt2: 68.6991
+Leading jteta: 1.82135
+dPhi: 3.11781
+A_J: 0.822515
+Emiss: 389.252
+Cent: 0
+
+event: 4315
+jtpt1: 467.354
+jtpt2: 127.134
+Leading jteta: 0.769529
+dPhi: 2.94242
+A_J: 0.85332
+Emiss: 419.508
+Cent: 0
+
+event: 4399
+jtpt1: 1311.05
+jtpt2: 51.1047
+Leading jteta: -0.372187
+dPhi: 2.85991
+A_J: 0.841544
+Emiss: 1223.89
+Cent: 0
+
+event: 5430
+jtpt1: 829.137
+jtpt2: 90.6789
+Leading jteta: -1.31897
+dPhi: 3.03512
+A_J: 0.808021
+Emiss: 770.762
+Cent: 8
+
+event: 9264
+jtpt1: 1219.57
+jtpt2: 64.7532
+Leading jteta: 0.0984148
+dPhi: 2.84529
+A_J: 0.809941
+Emiss: 1153.39
+Cent: 0
+
+event: 9610
+jtpt1: 463.682
+jtpt2: 137.202
+Leading jteta: 0.956363
+dPhi: 2.81462
+A_J: 0.882825
+Emiss: 441.764
+Cent: 0
+
+event: 10102
+jtpt1: 505.999
+jtpt2: 107.252
+Leading jteta: 1.72803
+dPhi: 2.82757
+A_J: 0.813395
+Emiss: 525.484
+Cent: 0
+
+event: 10911
+jtpt1: 697.662
+jtpt2: 114.519
+Leading jteta: 1.21944
+dPhi: 3.13014
+A_J: 0.821812
+Emiss: 818.827
+Cent: 0
+
+event: 11520
+jtpt1: 546.529
+jtpt2: 127.381
+Leading jteta: 1.90287
+dPhi: 3.13177
+A_J: 0.858592
+Emiss: 509.031
+Cent: 0
+
+event: 11791
+jtpt1: 419.232
+jtpt2: 60.2549
+Leading jteta: -0.489158
+dPhi: 3.05058
+A_J: 0.856248
+Emiss: 477.01
+Cent: 0
+
+event: 14941
+jtpt1: 929.034
+jtpt2: 94.7852
+Leading jteta: 0.255434
+dPhi: 2.8754
+A_J: 0.817858
+Emiss: 787.247
+Cent: 0
+
+event: 15369
+jtpt1: 359.748
+jtpt2: 69.2061
+Leading jteta: 1.84182
+dPhi: 2.78754
+A_J: 0.812017
+Emiss: 387.491
+Cent: 0
+
+event: 15385
+jtpt1: 1781.9
+jtpt2: 69.0939
+Leading jteta: -0.547301
+dPhi: 2.96162
+A_J: 0.866169
+Emiss: 1679.29
+Cent: 0
+
+event: 16603
+jtpt1: 1071.97
+jtpt2: 477.005
+Leading jteta: -1.37297
+dPhi: 3.04803
+A_J: 0.827847
+Emiss: 741.413
+Cent: 0
+
+event: 17355
+jtpt1: 454.448
+jtpt2: 97.8319
+Leading jteta: -1.3249
+dPhi: 3.0772
+A_J: 0.825214
+Emiss: 414.095
+Cent: 2
+
+event: 17846
+jtpt1: 700.3
+jtpt2: 89.628
+Leading jteta: -0.785028
+dPhi: 2.8899
+A_J: 0.907152
+Emiss: 668.611
+Cent: 0
+
+
