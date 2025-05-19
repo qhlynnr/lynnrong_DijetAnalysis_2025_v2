@@ -103,7 +103,7 @@ void run(const char* inputFileName) {
         for (int i = 0; i < 6; i++) {
             cout << "Processing Plot: " << i << endl;
             c1->cd(i+1);
-            TH2D* histogramTest = draw2DNew(inputFileName,eventInfo[0].event,i);
+            TH2D* histogramTest = draw2DNew(inputFileName,eventInfo[EventNum].event,i);
                 histogramTest->Draw("LEGO2 Z");
             }
             
