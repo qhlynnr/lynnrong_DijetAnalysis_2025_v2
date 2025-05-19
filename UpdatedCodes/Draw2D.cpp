@@ -5,6 +5,8 @@
 #include <TMath.h>
 #include <TH2D.h>
 #include "EventInfo.h"
+#include "EtaBins.h"
+
 
 
 vector<EventInfo> ReturnAsymmetricEvents(const char* inFileName,
@@ -104,14 +106,9 @@ vector<EventInfo> ReturnAsymmetricEvents(const char* inFileName,
 	return eventInfoArray;
 }
 
-void draw2D(const char* inFileName,
-		CutsBranches jtetacut,
-		CutsBranches HiBincut,
-		CutsVector dPhicut,
-		CutsVector AJcut,
-		CutsVector EMisscut2,
-		CutsVector EMisscut2p5,
-		vector<EventInfo> eventInfoArray){
+TH2D* draw2DNew(const char* inFileName,
+		int eventNum,
+		int pfIdSelection){
 
 	TFile* inFile = new TFile(inFileName,"READ");
 	if (!inFile || inFile->IsZombie()) {
@@ -128,61 +125,100 @@ void draw2D(const char* inFileName,
 	vector<float>* pfE = nullptr;
 	vector<float>* pfEta = nullptr;
 	vector<float>* pfPhi = nullptr;
+	vector<int>* pfId = nullptr;
 
 	PFTree->SetBranchAddress("nPF",&n);
 	PFTree->SetBranchAddress("pfPt",&pfpt);
 	PFTree->SetBranchAddress("pfE",&pfE);
 	PFTree->SetBranchAddress("pfPhi",&pfPhi);
 	PFTree->SetBranchAddress("pfEta",&pfEta);
+	PFTree->SetBranchAddress("pfId",&pfId);
 
-	// Define the eta bins
-	vector<double> eta_bins = {-5.191,-4.889,-4.716,-4.538,
-		-4.363,-4.191,-4.013,-3.839,-3.664,-3.489,-3.314,-3.139,
-		-3,-2.853,-2.65,-2.5,-2.322,-2.172,-2.043,-1.93,-1.83,-1.74,
-		-1.653,-1.566,-1.479,-1.392,-1.305,-1.218,-1.131,-1.044,-0.957,
-		-0.87,-0.783,-0.696,-0.609,-0.522,-0.435,-0.348,-0.261,-0.174,
-		-0.087,0,0.087,0.174,0.261,0.348,0.435,0.522,0.609,0.696,0.783,0.87,
-		0.957,1.044,1.131,1.218,1.305,1.392,1.479,1.566,1.653,1.74,1.83,1.93,
-		2.043,2.172,2.322,2.5,2.65,2.853,3,3.139,3.314,3.489,3.664,3.839,4.013,
-		4.191,4.363,4.538,4.716,4.889,5.191};
-
-
-    auto c1 = new TCanvas("c1","canvas",0,0,900,700);
     TH2D* graph = new TH2D ("h2","Particle Flow Pt Distribution of 1 Event in 2D;#phi;#eta;pt", 
 		72, -TMath::Pi(), TMath::Pi(), eta_bins.size()-1, eta_bins.data());
-	for(int i = 0; i < eventInfoArray.size(); i++){
-		PFTree->GetEntry(eventInfoArray[i].event);
-		graph->Reset(); // Clear the histogram before filling it with new data
-	
-		for(int j = 0; j < n; j++){
+
+	PFTree->GetEntry(eventNum);
+	cout << "pfIdSelection == " << pfIdSelection << endl;
+	for(int j = 0; j < n; j++){
+		if(pfIdSelection == 0){
 			graph->Fill(pfPhi->at(j), pfEta->at(j), pfpt->at(j));
+		}	
+		else if (pfIdSelection > 0 && pfIdSelection < 6){
+			if (pfId->at(j) != pfIdSelection) continue; // Apply the pfId selection
+			graph->Fill(pfPhi->at(j), pfEta->at(j), pfpt->at(j));	
 		}
-		gStyle->SetOptStat(0);
-		gPad->SetFrameBorderMode(0);
-		graph->GetXaxis()->SetAxisColor(0);
-		graph->GetYaxis()->SetAxisColor(0);
-		graph->GetZaxis()->SetAxisColor(0); // optional for color scale
-		graph->GetXaxis()->SetTitleOffset(1.5);
+		else{
+			cout << "Error: pfIdSelection out of range!" << endl;
+		}
+	};
+	
+	gStyle->SetOptStat(0);
+	graph->GetXaxis()->SetAxisColor(0);
+	graph->GetYaxis()->SetAxisColor(0);
+	graph->GetZaxis()->SetAxisColor(0); // optional for color scale
+	graph->GetXaxis()->SetTitleOffset(1.5);
+	// Define pfId labels (adjust as needed for your use case)
+	vector<string> pfIdLabels = {
+		"Inclusive",      // 0
+		"Charged Hadron",     // 1
+		"Electron",           // 2
+		"Muon",               // 3
+		"Photon",             // 4
+		"Neutral Hadron"      // 5
+	};
 
-		gPad->SetFrameLineColor(0);
-		
-		graph->Draw("LEGO2 Z");
+	string pfIdStr;
+	if (pfIdSelection >= 0 && pfIdSelection < pfIdLabels.size()) {
+		pfIdStr = pfIdLabels[pfIdSelection];
+	} else {
+		pfIdStr = "Unknown";
+	}
 
+	graph->SetTitle(Form("Particle Flow Pt Distribution of Event %d (%s)", eventNum, pfIdStr.c_str()));
+	cout << "Done Graphing" << endl;
+	return graph;
+}
+
+
+vector<string> HistogramSubtitle(CutsBranches jtetacut,
+		CutsBranches HiBincut,
+		CutsVector dPhicut,
+		CutsVector AJcut,
+		CutsVector EMisscut2,
+		CutsVector EMisscut2p5){
+	vector<string> cutTexts = {
+	Form("%.2f < %s < %.2f", jtetacut.cutmin, jtetacut.name.c_str(), jtetacut.cutmax),
+	Form("%.2f < %s < %.2f", dPhicut.cutmin, dPhicut.name.c_str(), dPhicut.cutmax),
+	Form("%.2f < %s < %.2f", HiBincut.cutmin, HiBincut.name.c_str(), HiBincut.cutmax),
+	Form("%.2f < %s < %.2f", AJcut.cutmin, AJcut.name.c_str(), AJcut.cutmax),
+	Form("%.2f < %s", EMisscut2p5.cutmin, EMisscut2p5.name.c_str()),
+	"jtpt2 > 50GeV",
+	"jtpt1 > 300GeV"};
+	cout << "Returning cutTexts" << endl;
+	return cutTexts;
+}
+
+vector<string> EventInfoPrint(EventInfo eventInfo){
+		vector<string> infoTexts = {
+			Form("Event: %d", eventInfo.event),
+			Form("jtpt1: %.2f", eventInfo.jtpt1),
+			Form("jtpt2: %.2f", eventInfo.jtpt2),
+			Form("jteta1: %.2f", eventInfo.leading_jteta),
+			Form("dPhi: %.2f", eventInfo.dPhi),
+			Form("A_J: %.2f", eventInfo.A_J),
+			Form("Emiss (eta < 2): %.2f", eventInfo.Emiss_eta2),
+			Form("Emiss (eta < 2.5): %.2f", eventInfo.Emiss_eta2p5),
+			Form("Emiss (inclusive): %.2f", eventInfo.Emiss_inclusive),
+			Form("Cent: %d", eventInfo.cent)
+		};
+	return infoTexts;
+}
+	/*void plot2D(){
+		vector<TLatex> cuts(cutTexts.size());
+	    auto c1 = new TCanvas("c1","canvas",0,0,900,700);
 		c1->SetTheta(45.);
 		c1->SetPhi(100.);
 		//c1->SetLogz();
-
-		vector<string> cutTexts = {
-			Form("%.2f < %s < %.2f", jtetacut.cutmin, jtetacut.name.c_str(), jtetacut.cutmax),
-			Form("%.2f < %s < %.2f", dPhicut.cutmin, dPhicut.name.c_str(), dPhicut.cutmax),
-			Form("%.2f < %s < %.2f", HiBincut.cutmin, HiBincut.name.c_str(), HiBincut.cutmax),
-			Form("%.2f < %s < %.2f", AJcut.cutmin, AJcut.name.c_str(), AJcut.cutmax),
-			Form("%.2f < %s", EMisscut2p5.cutmin, EMisscut2p5.name.c_str()),
-			"jtpt2 > 50GeV",
-			"jtpt1 > 300GeV",
-		};
-
-		vector<TLatex> cuts(cutTexts.size());
 
 		for (size_t j = 0; j < cuts.size(); ++j) {
 			cuts[j].SetNDC();
@@ -211,3 +247,4 @@ void draw2D(const char* inFileName,
 		c1->SaveAs(outFileName.c_str());
 	}
 }
+*/

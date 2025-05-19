@@ -136,3 +136,46 @@ vector<float> GetEmissJets(const char* inFileName, float etacut = 2.0){
 }
 
 
+
+vector<float> GetEmissPF(const char* inFileName, float etacut = 2.0){
+
+    TFile* inFile = new TFile(inFileName,"READ");
+    if (!inFile || inFile->IsZombie()) {
+        cout << "Error: Could not open the file!" << endl;
+    }
+    TTree* PFTree = (TTree*)inFile->Get("particleFlowAnalyser/pftree");
+
+    float EMisspt = 0;
+    float ptxtot, ptytot;
+
+    int n;
+    vector<float>* pfpt = nullptr;
+    vector<float>* pfphi = nullptr;
+    vector<float>* pfeta = nullptr;
+    vector<float>* pfE = nullptr;
+    vector<float>* pfId = nullptr;
+
+    vector<float> EMiss;
+
+    PFTree->SetBranchAddress("nPF",&n);
+    PFTree->SetBranchAddress("pfPt",&pfpt);
+    PFTree->SetBranchAddress("pfPhi",&pfphi);
+    PFTree->SetBranchAddress("pfEta",&pfeta);
+
+    for (int i = 0; i < PFTree->GetEntries(); i++){
+	    EMisspt = 0;
+	    ptxtot = 0;
+	    ptytot = 0;
+        PFTree->GetEntry(i);
+        for (int j = 0; j < n; j++){
+            if (abs(pfeta->at(j)) > etacut) continue;
+	        else{
+                ptxtot += TMath::Cos(pfphi->at(j))*pfpt->at(j);
+                ptytot += TMath::Sin(pfphi->at(j))*pfpt->at(j);
+	        }
+	    }
+	    EMisspt = TMath::Sqrt(ptxtot*ptxtot + ptytot*ptytot);
+	    EMiss.push_back(EMisspt);
+    }
+    return EMiss;
+}
